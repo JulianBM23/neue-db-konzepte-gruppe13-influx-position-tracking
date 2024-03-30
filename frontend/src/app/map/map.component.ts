@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { webSocket } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-map',
@@ -7,6 +8,8 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements OnInit {
+  subject = webSocket('ws://localhost:8080/write');
+
   private map!: L.Map;
   private polygon!: L.Polygon;
   private markers: L.Marker[] = [];
@@ -42,6 +45,10 @@ export class MapComponent implements OnInit {
     this.createPolygon();
     this.createCircles();
     this.startMoving();
+
+    this.subject.subscribe();
+
+    // this.subject.next({ user: 'Julian', xCoordinate: 37, yCoordinate: 42 });
   }
 
   initMap(): void {
@@ -74,6 +81,8 @@ export class MapComponent implements OnInit {
       { center: [52.48289591820308, 13.388518872891433], radius: 100 },
     ];
 
+    let user = 0;
+
     circleData.forEach((data, index) => {
       const centerLatLng: L.LatLngTuple = data.center as L.LatLngTuple;
       const circle = L.circle(centerLatLng, {
@@ -91,7 +100,25 @@ export class MapComponent implements OnInit {
             data.radius
           )
         ).addTo(this.map);
-        this.allMarkers.push({ marker: marker, circle: circle });
+
+        user++;
+
+        //TODO Push to Database
+        this.allMarkers.push({
+          markerId: user,
+          marker: marker,
+          circle: circle,
+        });
+
+        console.log(`Updating user ${user}`);
+
+        const message = {
+          user: user,
+          xCoordinate: marker.getLatLng().lng,
+          yCoordinate: marker.getLatLng().lat,
+        };
+
+        this.subject.next(message);
       }
 
       //this.circles.push(circle);
@@ -128,12 +155,21 @@ export class MapComponent implements OnInit {
         const markerData = this.allMarkers[i];
         const marker = markerData.marker;
         const circle = markerData.circle;
+        const user = markerData.markerId;
 
         // Get a random position within the circle bounds
         const newPosition = this.getRandomPositionWithinCircle(circle, marker);
 
         // Set the new position for the marker
         marker.setLatLng(newPosition);
+
+        const message = {
+          user: user,
+          xCoordinate: marker.getLatLng().lng,
+          yCoordinate: marker.getLatLng().lat,
+        };
+
+        this.subject.next(message);
       }
     }, 10000); // Adjust the interval as needed
   }
