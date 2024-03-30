@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "leaflet-canvas-markers": "^1.0.7"
+  }
+}
