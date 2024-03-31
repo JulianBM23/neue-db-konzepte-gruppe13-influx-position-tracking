@@ -11,8 +11,8 @@ const influxDB = new InfluxDB({
     "dnQA1UouZ7lvCFehcyojMTGspoOH9rr377M2RhIu2ejAQJDJCoaqEHuxBfAYGbptdNCr-ZZQAUNvKzP5BzSdWw==",
 });
 
-const writeApi = influxDB.getWriteApi("606b874b046168e9", "first_bucket");
-const queryApi = influxDB.getQueryApi("606b874b046168e9");
+const writeApi = influxDB.getWriteApi("org", "first_bucket");
+const queryApi = influxDB.getQueryApi("org");
 
 wss.on("connection", (ws, request) => {
   ws.send(

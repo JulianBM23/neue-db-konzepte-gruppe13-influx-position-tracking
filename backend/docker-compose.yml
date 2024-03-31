@@ -15,6 +15,13 @@ services:
 #      - default
 #    security_opt:
 #      - no-new-privileges:true
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=asdf1234
+      - DOCKER_INFLUXDB_INIT_ORG=org
+      - DOCKER_INFLUXDB_INIT_BUCKET=first_bucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=dnQA1UouZ7lvCFehcyojMTGspoOH9rr377M2RhIu2ejAQJDJCoaqEHuxBfAYGbptdNCr-ZZQAUNvKzP5BzSdWw==
     restart: unless-stopped
     ports:
       - "8086:8086"
