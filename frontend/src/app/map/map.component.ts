@@ -70,10 +70,10 @@ export class MapComponent implements OnInit {
     });
 
     const circleData = [
-      { center: [52.47732570170031, 13.394090162843977], radius: 730 },
-      { center: [52.473697380130105, 13.401374194968042], radius: 800 },
-      { center: [52.47265540286542, 13.40938174507275], radius: 780 },
-      { center: [52.48289591820308, 13.388518872891433], radius: 100 },
+      { center: [52.47732570170031, 13.394090162843977], radius: 540 },
+      { center: [52.473697380130105, 13.401374194968042], radius: 760 },
+      { center: [52.47265540286542, 13.40938174507275], radius: 550 },
+      { center: [52.48209591820308, 13.388518872891433], radius: 150 },
     ];
 
     let user = 0;
@@ -87,7 +87,7 @@ export class MapComponent implements OnInit {
         radius: data.radius,
       }).addTo(this.map);
 
-      for (let i = 0; i <= 100; i++) {
+      for (let i = 0; i < 100; i++) {
         console.log(1);
         const marker = L.marker(
           this.generateRandomLatLng(
@@ -109,8 +109,8 @@ export class MapComponent implements OnInit {
 
         const message = {
           user: user,
-          xCoordinate: marker.getLatLng().lng,
-          yCoordinate: marker.getLatLng().lat,
+          xCoordinate: marker.getLatLng().lat,
+          yCoordinate: marker.getLatLng().lng,
         };
 
         this.subject.next(message);
@@ -160,8 +160,8 @@ export class MapComponent implements OnInit {
 
         const message = {
           user: user,
-          xCoordinate: marker.getLatLng().lng,
-          yCoordinate: marker.getLatLng().lat,
+          xCoordinate: marker.getLatLng().lat,
+          yCoordinate: marker.getLatLng().lng,
         };
 
         this.subject.next(message);
