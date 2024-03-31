@@ -46,6 +46,15 @@ export class MapComponent implements OnInit {
     // this.subject.next({ user: 'Julian', xCoordinate: 37, yCoordinate: 42 });
   }
 
+  icon = L.icon({
+    iconUrl: 'assets/marker.png',
+    iconSize: [41, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41],
+  });
+
   initMap(): void {
     this.map = L.map('map').setView(
       [52.47397365581503, 13.404288402693037],
@@ -89,12 +98,14 @@ export class MapComponent implements OnInit {
 
       for (let i = 0; i < 100; i++) {
         console.log(1);
-        const marker = L.marker(
-          this.generateRandomLatLng(
-            [data.center[0], data.center[1]],
-            data.radius
-          )
-        ).addTo(this.map);
+
+        const randomLatLng = this.generateRandomLatLng(
+          [data.center[0], data.center[1]],
+          data.radius
+        );
+        const marker = L.marker(randomLatLng, { icon: this.icon }).addTo(
+          this.map
+        );
 
         user++;
 
