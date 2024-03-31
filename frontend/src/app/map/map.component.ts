@@ -32,11 +32,6 @@ export class MapComponent implements OnInit {
   };
 
   private circles: L.Circle[] = [];
-  private circleOptions = {
-    color: 'red', // Border color
-    fillColor: '#f03', // Fill color
-    fillOpacity: 0.5, // Fill opacity
-  };
 
   constructor() {}
 
@@ -86,9 +81,9 @@ export class MapComponent implements OnInit {
     circleData.forEach((data, index) => {
       const centerLatLng: L.LatLngTuple = data.center as L.LatLngTuple;
       const circle = L.circle(centerLatLng, {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
+        color: 'transparent',
+        fillColor: 'transparent',
+        fillOpacity: 0,
         radius: data.radius,
       }).addTo(this.map);
 
